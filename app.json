@@ -13,7 +13,8 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.betomoedano.notion-clone"
     },
     "android": {
       "adaptiveIcon": {
@@ -26,9 +27,7 @@
       "output": "static",
       "favicon": "./assets/images/favicon.png"
     },
-    "plugins": [
-      "expo-router"
-    ],
+    "plugins": ["@prisma/react-native", "expo-router"],
     "experiments": {
       "typedRoutes": true
     }
