@@ -13,6 +13,8 @@ model User {
   name         String
   email        String        @default("")
   notionFiles  NotionFile[]
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
 }
 
 model NotionFile {
@@ -26,6 +28,9 @@ model NotionFile {
   authorId     Int
   author       User          @relation(fields: [authorId], references: [id], onDelete: Cascade)
   parentFileId Int?          // Nullable to allow top-level files
-  parentFile   NotionFile?   @relation("FileHierarchy", fields: [parentFileId], references: [id])
+  parentFile   NotionFile?   @relation("FileHierarchy", fields: [parentFileId], references: [id], onDelete: Cascade)
   subFiles     NotionFile[]  @relation("FileHierarchy")
+  order        Int           @default(0)
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
 }

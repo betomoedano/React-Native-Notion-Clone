@@ -3,7 +3,7 @@ import { reactiveHooksExtension } from "@prisma/react-native";
 
 const baseClient = new PrismaClient({
   log: [
-    { emit: "stdout", level: "query" },
+    // { emit: "stdout", level: "query" },
     { emit: "stdout", level: "info" },
     { emit: "stdout", level: "warn" },
     { emit: "stdout", level: "error" },
@@ -14,7 +14,7 @@ export const extendedClient = baseClient.$extends(reactiveHooksExtension());
 
 export async function initializeDb() {
   try {
-    baseClient.$applyPendingMigrations();
+    await baseClient.$applyPendingMigrations();
     console.log("db initialized!");
   } catch (e) {
     console.error(`failed to apply migrations: ${e}`);
