@@ -1,16 +1,13 @@
-import { extendedClient } from "@/myDbModule";
+import { baseClient, extendedClient } from "@/myDbModule";
 import { NotionFile } from "@prisma/client/react-native";
-import React, { useCallback, useEffect, useState } from "react";
-import { LogBox, TouchableOpacity, View } from "react-native";
+import React, { useEffect, useState } from "react";
+import { TouchableOpacity, View } from "react-native";
 import DraggableFlatList from "react-native-draggable-flatlist";
 import { DraggableNotionListItem } from "./DraggableNotionListItem";
 import { ThemedText } from "./ThemedText";
 import { Ionicons } from "@expo/vector-icons";
 import { useActionSheet } from "@expo/react-native-action-sheet";
-import { Prisma, PrismaPromise } from "@prisma/client";
-import ResentFiles from "./ResentFiles";
-
-LogBox.ignoreLogs(["VirtualizedLists"]);
+import { Prisma } from "@prisma/client";
 
 export default function DraggableNotionList() {
   const [sortedFiles, setSortedFiles] = useState<NotionFile[]>([]);
@@ -23,24 +20,9 @@ export default function DraggableNotionList() {
     orderBy: orderBy,
   });
 
-  const areFilesDifferent = useCallback(
-    (current: NotionFile[], incoming: NotionFile[]) => {
-      if (current.length !== incoming.length) return true;
-
-      return current.some(
-        (file, index) =>
-          file.id !== incoming[index].id || file.order !== incoming[index].order
-      );
-    },
-    []
-  );
-
   useEffect(() => {
-    if (areFilesDifferent(sortedFiles, files)) {
-      console.log("updated files!");
-      setSortedFiles(() => files);
-    }
-  }, [orderBy, files]);
+    setSortedFiles(files);
+  }, [files, orderBy]);
 
   const handleActionSheet = () => {
     const options = ["Manual", "Creation Date", "Cancel"];
@@ -68,14 +50,22 @@ export default function DraggableNotionList() {
   };
 
   const handleDragEnd = async (data: NotionFile[]) => {
-    data.forEach((file, index) => {
-      extendedClient.notionFile.update({
+    setSortedFiles(data);
+    const updates = data.map((file, index) => {
+      return baseClient.notionFile.update({
         where: { id: file.id },
         data: { order: index },
       });
     });
-    // no need to reset state since update triggers re-render
-    // setSortedFiles(data);
+    await baseClient.$transaction(updates);
+    await extendedClient.$refreshSubscriptions();
+
+    // data.forEach((file, index) => {
+    //   extendedClient.notionFile.update({
+    //     where: { id: file.id },
+    //     data: { order: index },
+    //   });
+    // });
   };
 
   return (
