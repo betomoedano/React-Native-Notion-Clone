@@ -107,40 +107,52 @@ function NotionFileItem({
 
   return (
     <View>
-      <TouchableOpacity
-        style={styles.heading}
-        onPress={() => {}}
-        disabled={isActive}
-        activeOpacity={0.8}
-        onLongPress={drag}
+      <Link
+        asChild
+        push
+        href={{
+          pathname: "new-notion",
+          params: { viewingFile: JSON.stringify(notionFile) },
+        }}
       >
-        <View style={{ flexDirection: "row", alignItems: "center" }}>
-          <Pressable onPress={() => setIsOpen((value) => !value)}>
-            <Ionicons
-              name={isOpen ? "chevron-down" : "chevron-forward-outline"}
-              size={18}
-              style={{ marginRight: 12 }}
-              color={iconColor}
-            />
-          </Pressable>
-          <ThemedText type="defaultSemiBold" numberOfLines={1}>
-            {notionFile.icon} {notionFile.title}
-          </ThemedText>
-        </View>
-        <View style={{ flexDirection: "row", alignItems: "center", gap: 6 }}>
-          <Pressable onPress={() => onPress(notionFile.id)}>
-            <Ionicons name="ellipsis-horizontal" size={18} color={iconColor} />
-          </Pressable>
-          <Link
-            href={{
-              pathname: "new-notion",
-              params: { parentId: notionFile.id },
-            }}
-          >
-            <Ionicons name="add" size={22} color={iconColor} />
-          </Link>
-        </View>
-      </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.heading}
+          disabled={isActive}
+          activeOpacity={0.8}
+          onLongPress={drag}
+        >
+          <View style={{ flexDirection: "row", alignItems: "center" }}>
+            <Pressable onPress={() => setIsOpen((value) => !value)}>
+              <Ionicons
+                name={isOpen ? "chevron-down" : "chevron-forward-outline"}
+                size={18}
+                style={{ marginRight: 12 }}
+                color={iconColor}
+              />
+            </Pressable>
+            <ThemedText type="defaultSemiBold" numberOfLines={1}>
+              {notionFile.icon} {notionFile.title}
+            </ThemedText>
+          </View>
+          <View style={{ flexDirection: "row", alignItems: "center", gap: 6 }}>
+            <Pressable onPress={() => onPress(notionFile.id)}>
+              <Ionicons
+                name="ellipsis-horizontal"
+                size={18}
+                color={iconColor}
+              />
+            </Pressable>
+            <Link
+              href={{
+                pathname: "new-notion",
+                params: { parentId: notionFile.id },
+              }}
+            >
+              <Ionicons name="add" size={22} color={iconColor} />
+            </Link>
+          </View>
+        </TouchableOpacity>
+      </Link>
       {isOpen ? (
         <View style={styles.content}>
           <InnerNotionListItem parentId={notionFile.id} />

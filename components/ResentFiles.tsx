@@ -19,7 +19,7 @@ export default function ResentFiles() {
         type="defaultSemiBold"
         style={{
           color: Colors[theme!].text + "90",
-          padding: 10,
+          paddingHorizontal: 10,
         }}
       >
         Jump back in
@@ -33,7 +33,10 @@ export default function ResentFiles() {
         </ThemedText>
       )}
       <ScrollView
-        contentContainerStyle={{ gap: 12, paddingHorizontal: 10 }}
+        contentContainerStyle={{
+          gap: 12,
+          padding: 10,
+        }}
         horizontal
         showsHorizontalScrollIndicator={false}
       >

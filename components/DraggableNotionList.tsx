@@ -10,10 +10,10 @@ import { useActionSheet } from "@expo/react-native-action-sheet";
 import { Prisma } from "@prisma/client";
 
 export default function DraggableNotionList() {
+  const { showActionSheetWithOptions } = useActionSheet();
   const [sortedFiles, setSortedFiles] = useState<NotionFile[]>([]);
   const [orderBy, setOrderBy] =
     useState<Prisma.NotionFileOrderByWithRelationInput>({ order: "asc" });
-  const { showActionSheetWithOptions } = useActionSheet();
 
   const files = extendedClient.notionFile.useFindMany({
     where: { parentFile: { is: null } }, // prevent fetching files that live inside files
@@ -37,12 +37,12 @@ export default function DraggableNotionList() {
         switch (selectedIndex) {
           case 0: {
             // Manual
-            setOrderBy(() => ({ order: "asc" }));
+            setOrderBy({ order: "asc" });
             break;
           }
           case 1: {
             // Creation Date
-            setOrderBy(() => ({ createdAt: "desc" }));
+            setOrderBy({ createdAt: "desc" });
           }
         }
       }

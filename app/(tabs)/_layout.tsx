@@ -42,6 +42,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="new-notion"
         options={{
+          unmountOnBlur: true,
           tabBarIcon: ({ color, focused }) => (
             <TabBarIcon
               name={focused ? "pencil-sharp" : "pencil"}
