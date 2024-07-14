@@ -12,15 +12,13 @@ import Animated, {
   SlideOutLeft,
 } from "react-native-reanimated";
 import { NotionFile } from "@prisma/client/react-native";
+import { useNavigation } from "expo-router";
 
-export default function ResentFileCard({
-  id,
-  title,
-  coverPhoto,
-  icon,
-}: NotionFile) {
+export default function ResentFileCard(file: NotionFile) {
+  const navigation = useNavigation();
   const theme = useColorScheme();
   const color = useMemo(() => getRandomGradient(), []);
+  const { id, title, coverPhoto, icon } = file;
   return (
     <Animated.View
       layout={LinearTransition}
@@ -36,6 +34,12 @@ export default function ResentFileCard({
       }}
     >
       <TouchableOpacity
+        onPress={() =>
+          // @ts-ignore
+          navigation.navigate("new-notion", {
+            viewingFile: JSON.stringify(file),
+          })
+        }
         onLongPress={() => extendedClient.notionFile.delete({ where: { id } })}
         style={[
           styles.container,

@@ -1,18 +1,7 @@
-import {
-  Image,
-  StyleSheet,
-  Platform,
-  Button,
-  ScrollView,
-  SafeAreaView,
-  TouchableOpacity,
-} from "react-native";
+import { StyleSheet, SafeAreaView } from "react-native";
 
-import { HelloWave } from "@/components/HelloWave";
-import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
 import { extendedClient } from "@/myDbModule";
-import { Link, Stack } from "expo-router";
 import ResentFiles from "@/components/ResentFiles";
 import DraggableNotionList from "@/components/DraggableNotionList";
 

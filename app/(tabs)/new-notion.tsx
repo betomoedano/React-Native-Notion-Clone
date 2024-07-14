@@ -17,18 +17,11 @@ import { ThemedView } from "@/components/ThemedView";
 import { MarkdownTextInput } from "@expensify/react-native-live-markdown";
 import { markdownDarkStyle, markdownStyle } from "@/constants/MarkdownStyle";
 import { Colors } from "@/constants/Colors";
-import {
-  Link,
-  Stack,
-  useLocalSearchParams,
-  useNavigation,
-  useRouter,
-} from "expo-router";
+import { Link, Stack, useLocalSearchParams, useRouter } from "expo-router";
 import NotionButton from "@/components/NotionButton";
 import { extendedClient } from "@/myDbModule";
 import { ThemedText } from "@/components/ThemedText";
 import { NotionFile } from "@prisma/client";
-import { DraggableNotionListItem } from "@/components/DraggableNotionListItem";
 
 const EXAMPLE_CONTENT = [
   "# Insert subtitle here!",
@@ -87,7 +80,6 @@ const randomIcon = () =>
 
 export default function NewNotionScreen() {
   const theme = useColorScheme();
-  const navigation = useNavigation();
   const routeParams = useLocalSearchParams<{
     parentId?: string;
     viewingFile?: string;
@@ -163,7 +155,9 @@ export default function NewNotionScreen() {
       setText("");
       setIcon(randomIcon());
       router.setParams({ parentId: "", viewingFile: "" });
-      router.dismissAll();
+      if (router.canDismiss()) {
+        router.dismissAll();
+      }
       router.replace("/(tabs)/");
     } catch (e) {
       Alert.alert("Something went wrong :(");
@@ -193,6 +187,9 @@ export default function NewNotionScreen() {
                   iconName="close"
                   onPress={() => {
                     router.setParams({ parentId: "", viewingFile: "" });
+                    if (router.canDismiss()) {
+                      router.dismissAll();
+                    }
                     router.replace("/(tabs)/");
                   }}
                   containerStyle={{ marginRight: 10 }}
@@ -201,7 +198,6 @@ export default function NewNotionScreen() {
           }}
         />
 
-        {/* <ThemedText>{JSON.stringify(routeParams)}</ThemedText> */}
         <ScrollView keyboardShouldPersistTaps="always">
           <ThemedView style={styles.container}>
             {icon && (
