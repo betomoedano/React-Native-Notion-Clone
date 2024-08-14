@@ -20,14 +20,18 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.betomoedano.notionclone"
     },
     "web": {
       "bundler": "metro",
       "output": "static",
       "favicon": "./assets/images/favicon.png"
     },
-    "plugins": ["@prisma/react-native", "expo-router"],
+    "plugins": [
+      "@prisma/react-native",
+      "expo-router"
+    ],
     "experiments": {
       "typedRoutes": true
     }
