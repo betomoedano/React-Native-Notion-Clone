@@ -1,4 +1,4 @@
-import { StyleSheet, SafeAreaView } from "react-native";
+import { StyleSheet, SafeAreaView, Button } from "react-native";
 
 import { ThemedView } from "@/components/ThemedView";
 import { extendedClient } from "@/myDbModule";
